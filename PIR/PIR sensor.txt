@@ -1,0 +1,22 @@
+# importing necessary libraries
+
+from machine import Pin
+import utime
+
+# Object declaration
+
+led = Pin(25, Pin.OUT)
+PirSensor = Pin(0, Pin.IN,)
+
+def motion_det():
+	if PirSensor.value() ==1: # status of PIR output
+		print("motion detected") # print the response
+		led.value(1)
+		utime.sleep(3)
+	else:
+		print("no motion")
+		led.value(0)
+		utime.sleep(1)
+
+while True:
+	motion_det()
