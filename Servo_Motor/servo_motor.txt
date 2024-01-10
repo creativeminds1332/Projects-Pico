@@ -1,0 +1,24 @@
+from machine import Pin, PWM
+from utime import sleep
+servo=PWM(Pin(0))
+servo.freq(50)
+
+def servo_angle(angle):
+    # TS90A maps 0-180 using pulse width 0.5ms to 2.5ms
+    # Period of the signal is 20ms from the frequency
+    # duty cycle value is given as (Ton/Period)
+    # writeValue is duty cycle * 65535      (2^16)    
+    # 0 deg(x), 1638(y)
+    # 180 deg(x), 8192(y)
+    # gradient=6554/180
+    # y= mx + c, y=(6554/180)x + 1638 where x is the angle
+    writevalue=(6554/180)*angle + 1638
+    print(int(writevalue))
+    return int(writevalue)
+    
+
+while True:
+    #feedback = input('Enter your angle from 0-180: ')
+    for x in [0, 20, 50, 81, 102, 110, 150, 165, 179 ]:
+        servo.duty_u16(servo_angle(x))
+        sleep(0.2)
